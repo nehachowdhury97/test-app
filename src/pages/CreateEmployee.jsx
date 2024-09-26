@@ -25,9 +25,9 @@ export const CreateEmployee = () => {
             const response = await CallWithOutAuth("POST", addEmployee_url, formData);
             if (response.res.status === 200 && response.res.data) {
                 setIsCreateLoading(false);
-                setMessage("Employee Created successfully!");
-                setNotificationType("success");
-                setShowNotification(true);
+                // setMessage("Employee Created successfully!");
+                // setNotificationType("success");
+                // setShowNotification(true);
                 navigate('/');
             } else {
                 throw new Error("Unexpected response format");
