@@ -46,7 +46,7 @@ export const EditEmployee = () => {
             if (response.res.status === 200 && response.res.data) {
                 setIsUpdateLoading(false);
             }
-            console.log(response.res.data.data);
+            // console.log(response.res.data.data);
         } catch (error) {
             console.log(error);
         } finally {
