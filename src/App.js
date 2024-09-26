@@ -1,24 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import { PublicRoute } from "./Routes";
+import { Home } from "./pages/Home";
+import { CreateEmployee } from "./pages/CreateEmployee";
+import { EditEmployee } from "./pages/EditEmployee";
+import { AppContextProvider } from "./context/AppContext";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppContextProvider>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route
+          path="/employee-form/create"
+          element={
+            <PublicRoute>
+              <CreateEmployee />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/employee-form/edit/:id"
+          element={
+            <PublicRoute>
+              <EditEmployee />
+            </PublicRoute>
+          }
+        />
+      </Routes>
+    </AppContextProvider>
   );
 }
 
