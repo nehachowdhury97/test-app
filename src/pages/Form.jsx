@@ -55,12 +55,22 @@ export const Form = ({ formData, setFormData }) => {
             }
         }
     }
-    const handleChangeNumber = (event) => {
+    const handleChangeSalary = (event) => {
         const inputValue = event.target.value;
         if (/^\d*$/.test(inputValue)) {
             setFormData({
                 ...formData,
-                phone: inputValue,
+                salary: inputValue,
+            });
+        }
+    }
+
+    const handleChangeAge = (event) => {
+        const inputValue = event.target.value;
+        if (/^\d*$/.test(inputValue)) {
+            setFormData({
+                ...formData,
+                age: inputValue,
             });
         }
     }
@@ -87,10 +97,10 @@ export const Form = ({ formData, setFormData }) => {
                     <div className="formRow" >
                         <TextField id="phone" label="Phone Number" variant="outlined" value={formData.phone} onChange={(event) => handleChangePhoneNumber(event)} error={!!phoneError}
                             helperText={phoneError} />
-                        <TextField id="age" label="Age" variant="outlined" value={formData.age} onChange={(event) => handleChangeNumber(event)} />
+                        <TextField id="age" label="Age" variant="outlined" value={formData.age} onChange={(event) => handleChangeAge(event)} />
                     </div>
                     <div className="formRow" >
-                        <TextField id="salary" label="Salary" variant="outlined" value={formData.salary} onChange={(event) => handleChangeNumber(event)} />
+                        <TextField id="salary" label="Salary" variant="outlined" value={formData.salary} onChange={(event) => handleChangeSalary(event)} />
                         <div>
                             <Button
                                 color="secondary"

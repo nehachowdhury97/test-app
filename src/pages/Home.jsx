@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Stack from '@mui/material/Stack';
 import { CallWithOutAuth } from "../actions/apiActions";
+import { Notification } from "../components/Notification";
 //api end points
 const getEmployeeList_url = '/users/employee/list';
 const deleteEmployee_url = '/users/employee-remove';
@@ -15,6 +16,9 @@ export const Home = () => {
     const [employeesData, setEmployeesData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isRemoveLoading, setIsRemoveLoading] = useState({});
+    const [message, setMessage] = useState("");
+    const [notificationType, setNotificationType] = useState("");
+    const [showNotification, setShowNotification] = useState(false);
 
     const getData = async () => {
         try {
@@ -35,22 +39,42 @@ export const Home = () => {
     }, []);
 
     const handleDelete = async (id) => {
-        console.log('id', id);
+        // console.log('id', id);
         setIsRemoveLoading(prev => ({ ...prev, [id]: true }));
         try {
             const response = await CallWithOutAuth("DELETE", `${deleteEmployee_url}/${id}`);
             if (response.res.status === 200 && response.res.data) {
                 getData();
+                setMessage("Employee Deleted successfully!");
+                setNotificationType("success");
+                setShowNotification(true);
+            } else {
+                if (response.res.data.message) {
+                    setMessage(response.res.data.message);
+                } else {
+                    setMessage("Something went wrong. Please try again.");
+                }
+
+                throw new Error("Unexpected response format");
             }
-            console.log(response.res.data.data);
+            // console.log(response.res.data.data);
         } catch (error) {
             console.log(error);
+
+            setNotificationType("error");
+            setShowNotification(true);
         } finally {
             setIsRemoveLoading(prev => ({ ...prev, [id]: false }));
         }
     };
     return (
         <>
+            <Notification
+                message={message}
+                type={notificationType}
+                showNotification={showNotification}
+                setShowNotification={setShowNotification}
+            />
             <Header />
             <div className="page-header">
                 <h2>Employee List</h2>

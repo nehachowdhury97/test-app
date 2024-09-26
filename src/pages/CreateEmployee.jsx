@@ -23,23 +23,27 @@ export const CreateEmployee = () => {
         setIsCreateLoading(true);
         try {
             const response = await CallWithOutAuth("POST", addEmployee_url, formData);
-            if (response.res.status === 200 && response.res.data) {
+            if (response.res.status === 201 && response.res.data) {
                 setIsCreateLoading(false);
-                // setMessage("Employee Created successfully!");
-                // setNotificationType("success");
-                // setShowNotification(true);
-                navigate('/');
+                setMessage("Employee Created successfully!");
+                setNotificationType("success");
+                setShowNotification(true);
+                setTimeout(() => {
+                    navigate('/');
+                }, 3000); navigate('/');
             } else {
+                if (response.res.data.message) {
+                    setMessage(response.res.data.message);
+                } else {
+                    setMessage("Something went wrong. Please try again.");
+                }
+
                 throw new Error("Unexpected response format");
             }
             // console.log(response.res.data.data);
         } catch (error) {
             console.log(error);
-            if (error.response && error.response.data && error.response.data.message) {
-                setMessage(error.response.data.message);
-            } else {
-                setMessage("Something went wrong. Please try again.");
-            }
+
             setNotificationType("error");
             setShowNotification(true);
         } finally {
@@ -50,7 +54,12 @@ export const CreateEmployee = () => {
     return (
         <>
 
-            {showNotification && <Notification message={message} type={notificationType} />}
+            <Notification
+                message={message}
+                type={notificationType}
+                showNotification={showNotification}
+                setShowNotification={setShowNotification}
+            />
 
             <Form formData={formData} setFormData={setFormData} />
             <Stack direction="row" spacing={2} justifyContent="center">
